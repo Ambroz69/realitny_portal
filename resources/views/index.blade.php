@@ -1,9 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <title>Bootstrap 4 Example</title>
     <meta charset="utf-8">
-    <title>Pouzivatelia</title>
-    <link rel="stylesheet" href="{{asset('css/app.css')}}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 </head>
 <body>
 <div class="container">
@@ -13,6 +17,9 @@
             <p>{{ \Session::get('success') }}</p>
         </div><br />
     @endif
+    <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#createModal" >
+        <strong style="font-size: larger">&nbsp + &nbsp</strong>
+    </button>
     <table class="table table-striped">
         <thead>
         <tr>
@@ -31,7 +38,7 @@
                 <td>{{$pouz['heslo']}}</td>
                 <td>{{$pouz['email']}}</td>
 
-                <td><a href="{{action('PouzivatelController@edit', $pouz['id'])}}" class="btn btn-warning">Uprav</a></td>
+                <td><a href="{{action('PouzivatelController@edit', $pouz['id'])}}" class="btn btn-warning" >Upraviť</a></td>
                 <td>
                     <form action="{{action('PouzivatelController@destroy', $pouz['id'])}}" method="post">
                         @csrf
@@ -43,11 +50,61 @@
         @endforeach
         </tbody>
     </table>
+<!-- PRIDAVANIE POUZIVATELOV MODAL !-->
+    <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-center" id="crateModalLabel">Pridávanie používateľov</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <form method="post" action="{{url('reality')}}" enctype="multipart/form-data">
+                            @csrf
+                            <div class="row">
+                                <div class="col-md-2"></div>
+                                <div class="form-group col-md-8">
+                                    <label for="login">Login:</label>
+                                    <input type="text" class="form-control" name="login" id="login">
+                                </div>
+                                <div class="col-md-2"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2"></div>
+                                <div class="form-group col-md-8">
+                                    <label for="heslo">Heslo:</label>
+                                    <input type="text" class="form-control" name="heslo" id="heslo">
+                                </div>
+                                <div class="col-md-2"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2"></div>
+                                <div class="form-group col-md-8">
+                                    <label for="email">Email:</label>
+                                    <input type="text" class="form-control" name="email" id="email">
+                                </div>
+                                <div class="col-md-2"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2"></div>
+                                <div class="form-group col-md-8">
+                                    <button type="button" class="btn btn-secondary float-left" data-dismiss="modal">Zavrieť</button>
+                                    <button type="submit" class="btn btn-success float-right">PRIDAŤ</button>
+                                </div>
 
-    <div>
-        <br />
-        <a class="btn btn-info" href="{{ URL::route('reality/create') }}"><strong>Pridaj</strong></a>
+                                <div class="col-md-2"></div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+<!-- UPRAVOVANIE POUZIVATELOV MODAL !-->
+
 </div>
 </body>
 </html>
